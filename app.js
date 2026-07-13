@@ -60,7 +60,7 @@ function saveWorkspace(next){
 }
 function teamLink(){
   if(!workspace?.id) return '';
-  return `correo:${workspace.email || workspace.label || workspace.id} · espacio:${workspace.id}`;
+  return `cuenta:${workspace.email || workspace.label || workspace.id} · espacio:${workspace.id}`;
 }
 function currentRouteHash(){
   const route = routeFromHash();
@@ -110,7 +110,7 @@ function renderSession(){
   if(chip){ chip.hidden = !logged; chip.textContent = logged ? `Correo: ${workspace.email || workspace.label}` : 'Sin sesión'; }
   const logoutBtn = $('#logout-button');
   if(logoutBtn) logoutBtn.hidden = !logged;
-  if(!logged) $('#login-email')?.focus();
+  if(!logged) $('#login-email')?.focus({preventScroll:true});
 }
 
 const ROUTES = new Set(['captura','importar','exportar','equipo']);
@@ -148,9 +148,9 @@ async function createWorkspace(){
 }
 async function copyTeamLink(){
   const link = teamLink();
-  if(!link) return setSyncStatus('Primero crea el link del equipo.', true);
+  if(!link) return setSyncStatus('Primero inicia sesión con un correo.', true);
   await navigator.clipboard.writeText(link);
-  setSyncStatus('Link copiado. Cualquier persona con ese link puede ver y editar este inventario.');
+  setSyncStatus('Identificador copiado. Úsalo solo para soporte o revisión interna del inventario.');
 }
 function logout(){
   workspace = null;
@@ -415,7 +415,7 @@ document.addEventListener('click', e => {
   if(action==='save-item') { e.preventDefault(); saveCurrentForm(); }
   if(action==='reset-form') resetForm();
   if(action==='clear-filters') { search=''; filterCategory=''; filterStatus=''; $('#search').value=''; $('#filter-status').value=''; $('#filter-category').value=''; render(); }
-  if(action==='clear-all' && confirm('Esto borra solo los datos guardados en este navegador y lo sincroniza vacío si hay link de equipo. ¿Continuar?')){ items=[]; render(); pushRemote(true); }
+  if(action==='clear-all' && confirm('Esto borra el inventario de la cuenta activa en este navegador y sincroniza el cambio en la nube. ¿Continuar?')){ items=[]; render(); pushRemote(true); }
   if(action==='export-json') downloadBlob(`norvu-inventario-backup-${todayStamp()}.json`, new Blob([JSON.stringify({workspace:workspace?.id || null, items, exportedAt:new Date().toISOString()},null,2)], {type:'application/json'}));
   if(action==='export-xlsx') exportXlsx();
   if(action==='download-catalog') downloadCsv(`norvu-catalogo-${todayStamp()}.csv`, toCatalogRows());

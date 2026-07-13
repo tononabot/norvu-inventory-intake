@@ -3,62 +3,62 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Inventario rápido para Norvu</title>
-  <meta name="description" content="Herramienta temporal para capturar inventario desde Excel, evitar duplicados y exportar datos compatibles con Norvu.">
+  <title>Norvu Inventory Intake — Consolida y carga inventario</title>
+  <meta name="description" content="Aplicación para consolidar inventario desde Excel, captura manual y sesiones por correo, con exportación limpia para Norvu.">
   <meta name="robots" content="noindex,nofollow">
   <meta name="theme-color" content="#0f172a">
   <link rel="canonical" href="https://tononabot.github.io/norvu-inventory-intake/">
-  <meta property="og:title" content="Inventario rápido para Norvu">
-  <meta property="og:description" content="Captura simple, importación desde Excel existente, sincronización por link y exportación limpia para Norvu.">
+  <meta property="og:title" content="Norvu Inventory Intake">
+  <meta property="og:description" content="Consolida inventario, evita duplicados, guarda por correo y exporta archivos listos para Norvu.">
   <meta property="og:type" content="website">
-  <link rel="stylesheet" href="./styles.css?v=2">
+  <link rel="stylesheet" href="./styles.css?v=3">
 </head>
 <body>
   <a class="skip-link" href="#main">Saltar al contenido</a>
   <header class="app-header">
-    <a class="brand" href="#captura" aria-label="Norvu inventario rápido">
+    <a class="brand" href="#captura" aria-label="Norvu Inventory Intake">
       <svg class="brand-mark" width="42" height="42" viewBox="0 0 42 42" aria-hidden="true" focusable="false">
         <defs><linearGradient id="g" x1="0" y1="0" x2="42" y2="42"><stop stop-color="#38bdf8"/><stop offset="1" stop-color="#22c55e"/></linearGradient></defs>
         <rect x="4" y="4" width="34" height="34" rx="12" fill="#0f172a" stroke="url(#g)"/>
         <path d="M13 22h7v7h-7zM22 13h7v16h-7zM13 13h7v7h-7z" fill="url(#g)" opacity=".9"/>
       </svg>
       <span>
-        <strong>Inventario rápido</strong>
-        <small>Capturar · importar · exportar</small>
+        <strong>Norvu Inventory Intake</strong>
+        <small>Consolidar · cargar · exportar</small>
       </span>
     </a>
     <nav class="top-actions" aria-label="Acciones rápidas">
       <span class="account-chip" id="session-email" hidden>Sin sesión</span>
-      <button class="ghost" type="button" data-action="logout" id="logout-button" hidden>Cambiar correo</button>
-      <button class="ghost" type="button" data-action="export-json">Backup JSON</button>
+      <button class="ghost" type="button" data-action="logout" id="logout-button" hidden>Cerrar sesión</button>
+      <button class="ghost" type="button" data-action="export-json">Descargar respaldo</button>
       <button class="primary" type="button" data-action="export-xlsx">Exportar Excel</button>
     </nav>
   </header>
 
   <section id="login-screen" class="login-screen" aria-labelledby="login-title">
     <div class="login-card panel">
-      <p class="eyebrow">Acceso básico por correo</p>
-      <h1 id="login-title">Entra con tu correo para ver solo tu inventario.</h1>
-      <p class="lead">No hay contraseña en esta versión temporal. El correo funciona como identificador único: si otra persona entra con otro correo, abre un inventario separado.</p>
+      <p class="eyebrow">Inventario privado por correo</p>
+      <h1 id="login-title">Inicia sesión y continúa el inventario correcto.</h1>
+      <p class="lead">Tu correo abre un espacio de trabajo propio para consolidar productos, cargar archivos existentes y mantener los datos separados por cuenta. Al cerrar sesión puedes cambiar de inventario sin mezclar información.</p>
       <form id="login-form" class="login-form">
         <div class="field">
-          <label for="login-email">Correo del usuario</label>
+          <label for="login-email">Correo de la cuenta</label>
           <input id="login-email" name="email" type="email" autocomplete="email" required placeholder="nombre@empresa.com">
-          <small class="hint">Usa siempre el mismo correo para recuperar los datos de esa persona o tienda.</small>
+          <small class="hint">Usa el mismo correo para retomar el mismo inventario desde este u otro dispositivo.</small>
         </div>
-        <button class="primary" type="submit">Entrar al inventario</button>
+        <button class="primary" type="submit">Iniciar sesión</button>
       </form>
       <div id="login-result" class="notice" hidden></div>
-      <p class="small">Seguridad básica: separación por correo. No compartas correos de prueba si quieres mantener inventarios independientes.</p>
+      <p class="small">Cada sesión mantiene su propio inventario. Cierra sesión cuando termines o cambia de correo para trabajar otra cuenta.</p>
     </div>
   </section>
 
   <main id="main" class="shell" hidden>
     <section class="hero" aria-labelledby="hero-title">
       <div>
-        <p class="eyebrow">Para el cliente: sin SKU, sin campos raros</p>
-        <h1 id="hero-title">Un dashboard simple para construir la fuente de verdad del inventario.</h1>
-        <p class="lead">Separa lo importante: capturar productos, importar el Excel existente, revisar la tabla general y descargar lo trabajado. Todo queda sincronizado y separado por correo.</p>
+        <p class="eyebrow">De archivos dispersos a una fuente de verdad</p>
+        <h1 id="hero-title">Consolida, carga y entrega inventario listo para Norvu.</h1>
+        <p class="lead">Empieza con una sesión por correo, importa el Excel existente, completa el conteo desde la captura manual y trabaja sobre una tabla general sincronizada. Cuando el inventario esté limpio, descarga el Excel o los CSV de migración.</p>
       </div>
       <div class="status-card" aria-live="polite">
         <span class="status-dot" aria-hidden="true"></span>
@@ -68,23 +68,23 @@
     </section>
 
     <nav class="module-tabs" aria-label="Módulos del inventario">
-      <a href="#captura" data-route-link="captura">Capturar producto</a>
+      <a href="#captura" data-route-link="captura">Consolidar inventario</a>
       <a href="#importar" data-route-link="importar">Cargar Excel</a>
-      <a href="#exportar" data-route-link="exportar">Descargar archivos</a>
-      <a href="#equipo" data-route-link="equipo">Cuenta y sync</a>
+      <a href="#exportar" data-route-link="exportar">Exportar archivos</a>
+      <a href="#equipo" data-route-link="equipo">Sesión y sync</a>
     </nav>
 
     <section id="module-captura" class="module" data-route="captura" aria-labelledby="capture-title">
       <div class="module-head">
         <p class="eyebrow">Módulo 1</p>
-        <h2 id="capture-title">Agregar productos y revisar la tabla general</h2>
-        <p>Usa este módulo para capturar lo que están contando ahora. Abajo siempre está la tabla general con filtros usables.</p>
+        <h2 id="capture-title">Convierte el conteo en una tabla confiable</h2>
+        <p>Agrega productos nuevos, corrige registros importados y revisa todo desde una tabla general con filtros, estados y acciones claras.</p>
       </div>
 
       <div class="grid-layout capture-grid">
         <article class="panel" aria-labelledby="form-title">
           <h3 id="form-title">Agregar producto</h3>
-          <p class="helper">Solo pide datos que una persona normal entiende. Los campos técnicos para Norvu se generan al exportar.</p>
+          <p class="helper">Captura datos operativos fáciles de reconocer. Los campos de migración para Norvu se preparan al exportar.</p>
           <form id="item-form" autocomplete="off">
             <input type="hidden" id="edit-id">
             <div class="field">
@@ -157,7 +157,7 @@
             <a class="ghost link-button" href="#importar">Cargar Excel</a>
             <a class="ghost link-button" href="#exportar">Descargar todo</a>
           </div>
-          <p class="small">La tabla general de abajo es la fuente de verdad de la app.</p>
+          <p class="small">La tabla general es la fuente de verdad: todo lo importado o capturado se consolida aquí.</p>
         </aside>
       </div>
 
@@ -211,15 +211,15 @@
     <section id="module-importar" class="module" data-route="importar" aria-labelledby="import-title" hidden>
       <div class="module-head">
         <p class="eyebrow">Módulo 2</p>
-        <h2 id="import-title">Cargar el Excel que ya tienen</h2>
-        <p>Sube el archivo actual del cliente. La app lo agrega a la tabla general y evita duplicar inventario si cargan el mismo archivo otra vez.</p>
+        <h2 id="import-title">Carga el Excel existente sin empezar desde cero</h2>
+        <p>Sube el archivo operativo actual. Norvu Inventory Intake lo incorpora a la tabla general y conserva registros existentes para evitar duplicados.</p>
       </div>
       <section class="panel import-panel">
         <div class="panel-head">
           <div>
             <h3>Importar archivo existente</h3>
             <p>Soporta categoría en B, producto en C, cantidad en E y proveedor/marca en F. Si hay encabezados, también los detecta.</p>
-            <p class="helper">Tip: si no sabes qué archivo usar, sube el Excel original del cliente. La app intentará leerlo y te dirá cuántos productos encontró.</p>
+            <p class="helper">Tip: usa el archivo más actualizado de la operación. La app intentará leerlo y te dirá cuántos productos encontró.</p>
           </div>
           <label class="file-button">
             <input id="file-input" type="file" accept=".xlsx,.xls,.csv">
@@ -228,12 +228,12 @@
         </div>
         <div class="import-options">
           <label><input type="checkbox" id="merge-import" checked> Unir con datos existentes y evitar duplicados</label>
-          <button type="button" class="ghost danger" data-action="clear-all">Borrar inventario de esta app</button>
+          <button type="button" class="ghost danger" data-action="clear-all">Borrar inventario de esta cuenta</button>
         </div>
         <div id="import-result" class="notice" hidden></div>
         <div class="next-step-card">
-          <strong>Después de importar:</strong>
-          <span>ve a <a href="#captura">Capturar producto</a> para revisar la tabla general, filtrar y corregir.</span>
+          <strong>Siguiente paso:</strong>
+          <span>ve a <a href="#captura">Consolidar inventario</a> para revisar la tabla general, filtrar y corregir.</span>
         </div>
       </section>
     </section>
@@ -241,8 +241,8 @@
     <section id="module-exportar" class="module" data-route="exportar" aria-labelledby="export-title" hidden>
       <div class="module-head">
         <p class="eyebrow">Módulo 3</p>
-        <h2 id="export-title">Descargar lo trabajado</h2>
-        <p>Cuando terminen el conteo, pueden bajar un Excel completo o archivos CSV listos para migración a Norvu.</p>
+        <h2 id="export-title">Entrega archivos limpios para Norvu</h2>
+        <p>Cuando el conteo esté consolidado, descarga un Excel completo o archivos CSV listos para cargar catálogo y stock inicial.</p>
       </div>
       <div class="export-grid">
         <article class="panel export-card">
@@ -261,9 +261,9 @@
           <button type="button" class="ghost" data-action="download-stock">Descargar stock CSV</button>
         </article>
         <article class="panel export-card">
-          <h3>Backup JSON</h3>
-          <p>Copia técnica para recuperar la captura si algo sale mal. No es para el cliente final.</p>
-          <button type="button" class="ghost" data-action="export-json">Descargar backup JSON</button>
+          <h3>Respaldo de datos</h3>
+          <p>Copia de respaldo para conservar la sesión de trabajo y recuperar datos si necesitas revisar el histórico.</p>
+          <button type="button" class="ghost" data-action="export-json">Descargar respaldo</button>
         </article>
       </div>
     </section>
@@ -271,16 +271,16 @@
     <section id="module-equipo" class="module" data-route="equipo" aria-labelledby="workspace-title" hidden>
       <div class="module-head">
         <p class="eyebrow">Módulo 4</p>
-        <h2 id="workspace-title">Cuenta por correo y sincronización</h2>
-        <p>El correo activo identifica este inventario. Otro correo abre otro espacio sin mezclar datos.</p>
+        <h2 id="workspace-title">Sesión, cierre y sincronización</h2>
+        <p>El correo activo identifica el inventario en curso. Cerrar sesión protege el contexto de trabajo y permite entrar con otra cuenta sin mezclar datos.</p>
       </div>
       <section id="workspace-panel" class="panel workspace-panel">
         <div class="panel-head">
           <div>
-            <h3>Identificación de la sesión</h3>
-            <p id="workspace-state">Este navegador está guardando localmente hasta iniciar sesión con correo.</p>
+            <h3>Cuenta activa</h3>
+            <p id="workspace-state">Este navegador queda listo para guardar cuando inicias sesión con correo.</p>
           </div>
-          <span class="workspace-badge" id="workspace-name">Sin link de equipo</span>
+          <span class="workspace-badge" id="workspace-name">Sin sesión activa</span>
         </div>
         <div class="workspace-grid">
           <div class="field">
@@ -289,15 +289,15 @@
             <small class="hint">Este correo es el identificador del inventario. Mismo correo = mismos datos.</small>
           </div>
           <div class="field">
-            <label for="team-link">Llave técnica de sincronización</label>
+            <label for="team-link">Identificador de sincronización</label>
             <input id="team-link" readonly placeholder="Se genera automáticamente al iniciar sesión">
-            <small class="hint danger-text">Versión temporal sin contraseña: quien use el mismo correo puede abrir ese inventario.</small>
+            <small class="hint">Para trabajar otro inventario, cierra sesión e ingresa con el correo correspondiente.</small>
           </div>
         </div>
         <div class="form-actions wrap-actions">
           <button class="primary" type="button" data-action="pull-remote">Traer cambios de este correo</button>
           <button class="ghost" type="button" data-action="push-remote">Guardar en nube ahora</button>
-          <button class="ghost danger" type="button" data-action="logout">Cambiar correo</button>
+          <button class="ghost danger" type="button" data-action="logout">Cerrar sesión</button>
         </div>
         <div id="sync-result" class="notice" hidden></div>
       </section>
@@ -309,12 +309,12 @@
             <p>Todo lo que escribes queda guardado en este navegador de inmediato.</p>
           </div>
           <div>
-            <h4>2. Nube separada por correo</h4>
-            <p>La app crea una sección remota por correo. Cada operación se guarda asociada a ese identificador.</p>
+            <h4>2. Nube separada por cuenta</h4>
+            <p>La app mantiene un espacio remoto por correo. Cada operación queda asociada a la cuenta activa.</p>
           </div>
           <div>
-            <h4>3. Fuente de verdad</h4>
-            <p>La tabla general de la app manda. Si vuelves a cargar el mismo Excel, la app conserva el registro existente y no duplica cantidades.</p>
+            <h4>3. Consolidación confiable</h4>
+            <p>La tabla general manda. Si vuelves a cargar el mismo Excel, la app conserva el registro existente y no duplica cantidades.</p>
           </div>
         </div>
       </section>
@@ -325,6 +325,6 @@
   <datalist id="location-list"><option value="Principal"><option value="Bodega"><option value="Vitrina"><option value="Mostrador"></datalist>
 
   <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js" defer></script>
-  <script src="./app.js?v=2" defer></script>
+  <script src="./app.js?v=3" defer></script>
 </body>
 </html>

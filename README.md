@@ -1,6 +1,6 @@
 # Norvu Inventory Intake
 
-Herramienta web temporal para que un cliente capture inventario sin conocer SKU ni campos técnicos, reutilizando el Excel que ya tiene y preparando datos exportables para Norvu.
+Aplicación web para consolidar y cargar inventario hacia Norvu. Permite iniciar sesión por correo, importar el Excel operativo existente, completar la captura manual, evitar duplicados y exportar archivos limpios para migración.
 
 ## Qué hace
 
@@ -10,20 +10,21 @@ Herramienta web temporal para que un cliente capture inventario sin conocer SKU 
   - C: producto
   - E: cantidad
   - F: proveedor/marca
+- Permite iniciar y cerrar sesión por correo para separar inventarios por cuenta.
 - Permite continuar capturando desde la web.
-- Guarda automáticamente en `localStorage` del navegador.
+- Guarda automáticamente en `localStorage` y sincroniza contra el Worker/KV configurado.
 - Detecta posibles duplicados por código de barras o categoría + producto + proveedor/marca.
 - Exporta:
   - Excel completo con hoja de captura.
   - CSV catálogo compatible con import actual de Norvu.
   - CSV stock inicial para migración posterior.
-  - Backup JSON.
+  - Respaldo de datos.
 
-## Persistencia
+## Persistencia y sesión
 
-Por defecto es local-first: no expone datos ni credenciales y funciona en GitHub Pages inmediatamente.
+La app es local-first y sincroniza por cuenta de correo. El correo activo identifica el inventario en curso; cerrar sesión limpia el contexto visible del navegador y permite entrar con otra cuenta sin mezclar datos.
 
-Para persistencia centralizada opcional, ver `google-apps-script/Code.gs`. Se debe desplegar como Google Apps Script Web App y pegar la URL en la app. El frontend nunca debe incluir tokens de Google.
+El frontend nunca debe incluir tokens privados. La persistencia remota vive en Cloudflare Worker/KV.
 
 ## Campos visibles para el cliente
 

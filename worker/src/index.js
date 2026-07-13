@@ -111,9 +111,9 @@ async function authorize(request, env, id) {
   if (legacyExpected && legacyProvided && legacyExpected === legacyProvided) return { ok: true, record };
 
   const provided = request.headers.get('X-Workspace-Key') || '';
-  if (!provided) return { ok: false, status: 401, error: 'Este link no trae la llave privada. Abre el link completo que dice “link del equipo”.' };
+  if (!provided) return { ok: false, status: 401, error: 'No se encontró la llave de sincronización de esta cuenta. Inicia sesión nuevamente con el correo.' };
   const providedHash = await sha256(`${id}:${provided}`);
-  if (providedHash !== record.secretHash) return { ok: false, status: 401, error: 'La llave privada de este link no coincide. Pide nuevamente el link del equipo.' };
+  if (providedHash !== record.secretHash) return { ok: false, status: 401, error: 'La llave de sincronización no coincide. Cierra sesión e inicia nuevamente con el correo correcto.' };
   return { ok: true, record };
 }
 
