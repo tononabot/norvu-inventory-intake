@@ -11,7 +11,7 @@
   <meta property="og:title" content="Norvu Inventory Intake">
   <meta property="og:description" content="Consolida inventario, evita duplicados, guarda por correo y exporta archivos listos para Norvu.">
   <meta property="og:type" content="website">
-  <link rel="stylesheet" href="./styles.css?v=3">
+  <link rel="stylesheet" href="./styles.css?v=4">
 </head>
 <body>
   <a class="skip-link" href="#main">Saltar al contenido</a>
@@ -27,8 +27,24 @@
         <small>Consolidar · cargar · exportar</small>
       </span>
     </a>
-    <nav class="top-actions" aria-label="Acciones rápidas">
+    <div class="header-session" id="header-session" hidden aria-live="polite">
+      <span class="status-dot" aria-hidden="true"></span>
+      <span class="header-session__copy">
+        <strong id="header-save-status">Guardado local + nube activo</strong>
+        <small><span id="header-user-email">Sin sesión</span> · <time id="header-last-save">—</time></small>
+      </span>
+    </div>
+    <button class="menu-toggle" type="button" id="mobile-menu-button" aria-label="Abrir menú" aria-controls="top-actions" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </button>
+    <nav class="top-actions" id="top-actions" aria-label="Menú y acciones rápidas">
       <span class="account-chip" id="session-email" hidden>Sin sesión</span>
+      <a class="ghost link-button menu-link" href="#captura">Consolidar</a>
+      <a class="ghost link-button menu-link" href="#importar">Cargar Excel</a>
+      <a class="ghost link-button menu-link" href="#exportar">Exportar</a>
+      <a class="ghost link-button menu-link" href="#equipo">Sesión</a>
       <button class="ghost" type="button" data-action="logout" id="logout-button" hidden>Cerrar sesión</button>
       <button class="ghost" type="button" data-action="export-json">Descargar respaldo</button>
       <button class="primary" type="button" data-action="export-xlsx">Exportar Excel</button>
@@ -325,6 +341,6 @@
   <datalist id="location-list"><option value="Principal"><option value="Bodega"><option value="Vitrina"><option value="Mostrador"></datalist>
 
   <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js" defer></script>
-  <script src="./app.js?v=3" defer></script>
+  <script src="./app.js?v=4" defer></script>
 </body>
 </html>

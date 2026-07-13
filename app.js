@@ -86,8 +86,14 @@ function load(){
 function save(){
   if(workspace?.id) localStorage.setItem(storageKey(), JSON.stringify(items));
   const now = new Date();
-  $('#last-save').textContent = now.toLocaleString('es-CO');
-  $('#autosave-status').textContent = workspace?.id ? `Guardado local + nube activo para ${workspace.email || workspace.label}` : 'Inicia sesión para guardar';
+  const savedAt = now.toLocaleString('es-CO');
+  $('#last-save').textContent = savedAt;
+  const headerLastSave = $('#header-last-save');
+  if(headerLastSave) headerLastSave.textContent = savedAt;
+  const statusText = workspace?.id ? `Guardado local + nube activo para ${workspace.email || workspace.label}` : 'Inicia sesión para guardar';
+  $('#autosave-status').textContent = statusText;
+  const headerStatus = $('#header-save-status');
+  if(headerStatus) headerStatus.textContent = workspace?.id ? 'Guardado local + nube activo' : 'Inicia sesión para guardar';
   if(!isBooting) scheduleRemotePush();
 }
 
@@ -106,11 +112,20 @@ function renderSession(){
   document.body.classList.toggle('is-logged-out', !logged);
   if(loginScreen) loginScreen.hidden = logged;
   if(main) main.hidden = !logged;
+  const userEmail = workspace?.email || workspace?.label || 'Sin sesión';
   const chip = $('#session-email');
-  if(chip){ chip.hidden = !logged; chip.textContent = logged ? `Correo: ${workspace.email || workspace.label}` : 'Sin sesión'; }
+  if(chip){ chip.hidden = !logged; chip.textContent = logged ? `Correo: ${userEmail}` : 'Sin sesión'; }
+  const headerSession = $('#header-session');
+  if(headerSession) headerSession.hidden = !logged;
+  const headerUser = $('#header-user-email');
+  if(headerUser) headerUser.textContent = userEmail;
+  const headerStatus = $('#header-save-status');
+  if(headerStatus) headerStatus.textContent = logged ? 'Guardado local + nube activo' : 'Sin sesión activa';
+  const menuBtn = $('#mobile-menu-button');
+  if(menuBtn) menuBtn.hidden = !logged;
   const logoutBtn = $('#logout-button');
   if(logoutBtn) logoutBtn.hidden = !logged;
-  if(!logged) $('#login-email')?.focus({preventScroll:true});
+  if(!logged){ closeMobileMenu(); $('#login-email')?.focus({preventScroll:true}); }
 }
 
 const ROUTES = new Set(['captura','importar','exportar','equipo']);
@@ -401,6 +416,35 @@ function exportXlsx(){
   XLSX.writeFile(wb, `norvu-inventario-${todayStamp()}.xlsx`);
 }
 
+function isMobileNav(){ return window.matchMedia('(max-width: 820px)').matches; }
+function closeMobileMenu(){
+  document.body.classList.remove('menu-open');
+  const menuBtn = $('#mobile-menu-button');
+  const menu = $('#top-actions');
+  if(menuBtn){
+    menuBtn.setAttribute('aria-expanded', 'false');
+    menuBtn.setAttribute('aria-label', 'Abrir menú');
+  }
+  if(menu){
+    menu.classList.remove('is-open');
+    menu.inert = isMobileNav();
+  }
+}
+function toggleMobileMenu(){
+  const open = !document.body.classList.contains('menu-open');
+  document.body.classList.toggle('menu-open', open);
+  const menuBtn = $('#mobile-menu-button');
+  const menu = $('#top-actions');
+  if(menuBtn){
+    menuBtn.setAttribute('aria-expanded', String(open));
+    menuBtn.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+  }
+  if(menu){
+    menu.classList.toggle('is-open', open);
+    menu.inert = isMobileNav() && !open;
+  }
+}
+
 $('#login-form').addEventListener('submit', e => { e.preventDefault(); loginWithEmail($('#login-email').value).catch(err => showNotice('#login-result', err.message, true)); });
 $('#item-form').addEventListener('submit', e => { e.preventDefault(); saveCurrentForm(); });
 $('#file-input').addEventListener('change', e => { const f=e.target.files[0]; if(f) importFile(f).catch(err => showNotice('#import-result', `Error leyendo archivo: ${err.message}`, true)); e.target.value=''; });
@@ -425,9 +469,22 @@ document.addEventListener('click', e => {
   if(action==='pull-remote') pullRemote();
   if(action==='push-remote') pushRemote(true);
   if(action==='forget-workspace') forgetWorkspace();
-  if(action==='logout') logout();
+  if(action==='logout') { closeMobileMenu(); logout(); }
+});
+$('#mobile-menu-button')?.addEventListener('click', toggleMobileMenu);
+$('#top-actions')?.addEventListener('click', e => {
+  if(e.target.closest('a,button')) closeMobileMenu();
+});
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape') closeMobileMenu();
 });
 
+window.addEventListener('resize', () => {
+  const menu = $('#top-actions');
+  if(menu) menu.inert = isMobileNav() && !document.body.classList.contains('menu-open');
+});
+
+closeMobileMenu();
 load();
 setRoute();
 window.addEventListener('hashchange', setRoute);
