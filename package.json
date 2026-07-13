@@ -1,0 +1,6 @@
+{
+  "type": "module",
+  "devDependencies": {
+    "wrangler": "^3.114.14"
+  }
+}
